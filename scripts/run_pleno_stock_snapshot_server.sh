@@ -38,6 +38,10 @@ die() {
   exit 1
 }
 
+has_mysql_env() {
+  [[ -n "${MYSQL_HOST:-}" && -n "${MYSQL_USER:-}" && -n "${MYSQL_PASSWORD:-}" ]]
+}
+
 read_lojas_file() {
   local file="$1"
   [[ -f "$file" ]] || return 1
@@ -96,7 +100,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 [[ -d "$PROJECT_DIR" ]] || die "diretorio do projeto nao encontrado: $PROJECT_DIR"
-[[ -f "$PROJECT_DIR/.env" ]] || die "arquivo .env nao encontrado em $PROJECT_DIR"
+[[ -f "$PROJECT_DIR/.env" || has_mysql_env ]] || die "arquivo .env nao encontrado em $PROJECT_DIR e variaveis MYSQL_HOST/MYSQL_USER/MYSQL_PASSWORD ausentes"
 [[ -f "$PROJECT_DIR/scripts/export_pleno_stock_snapshot.py" ]] || die "exportador de snapshot nao encontrado"
 
 if [[ -z "$LOJAS" ]]; then

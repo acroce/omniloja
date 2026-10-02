@@ -1,0 +1,82 @@
+services:
+  omniloja-nginx:
+    image: nginx:1.27-alpine
+    container_name: ${OMNILOJA_NGINX_CONTAINER_NAME:-omniloja-nginx}
+    depends_on:
+      omniloja-web:
+        condition: service_started
+    ports:
+      - "${OMNILOJA_HTTP_PORT:-8098}:80"
+    volumes:
+      - ./docker/nginx/omniloja.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - omniloja-net
+    restart: unless-stopped
+
+  omniloja-web:
+    build:
+      context: .
+      dockerfile: Dockerfile.omniloja
+    container_name: ${OMNILOJA_WEB_CONTAINER_NAME:-omniloja-web}
+    environment:
+      TZ: America/Sao_Paulo
+      AUDIT_WEB_HOST: 0.0.0.0
+      AUDIT_WEB_PORT: 8094
+      OMNILOJA_APP_NAME: omniloja
+      OMNILOJA_DB_HOST: omniloja-db
+      OMNILOJA_DB_PORT: 3306
+      OMNILOJA_DB_NAME: ${OMNILOJA_DB_NAME:-omniloja}
+      OMNILOJA_DB_USER: ${OMNILOJA_DB_USER:-omniloja}
+      OMNILOJA_DB_PASSWORD: ${OMNILOJA_DB_PASSWORD:-omniloja_dev_password}
+      MYSQL_HOST: ${OMNILOJA_PLENO_MYSQL_HOST:-omniloja-db}
+      MYSQL_PORT: ${OMNILOJA_PLENO_MYSQL_PORT:-3306}
+      MYSQL_USER: ${OMNILOJA_PLENO_MYSQL_USER:-${OMNILOJA_DB_USER:-omniloja}}
+      MYSQL_PASSWORD: ${OMNILOJA_PLENO_MYSQL_PASSWORD:-${OMNILOJA_DB_PASSWORD:-omniloja_dev_password}}
+      MYSQL_DATABASE: ${OMNILOJA_PLENO_MYSQL_DATABASE:-${OMNILOJA_DB_NAME:-omniloja}}
+      SAP_API_MONITOR_ENABLED: ${SAP_API_MONITOR_ENABLED_DEFAULT:-0}
+      CHECKIN_NOTAS_MONITOR_ENABLED: ${CHECKIN_NOTAS_MONITOR_ENABLED_DEFAULT:-0}
+    volumes:
+      - omniloja-outputs:/app/outputs
+      - ./config:/app/config:ro
+    depends_on:
+      omniloja-db:
+        condition: service_healthy
+    networks:
+      - omniloja-net
+    restart: unless-stopped
+
+  omniloja-db:
+    image: mysql:8.4
+    container_name: ${OMNILOJA_DB_CONTAINER_NAME:-omniloja-db}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${OMNILOJA_DB_ROOT_PASSWORD:-omniloja_root_dev_password}
+      MYSQL_DATABASE: ${OMNILOJA_DB_NAME:-omniloja}
+      MYSQL_USER: ${OMNILOJA_DB_USER:-omniloja}
+      MYSQL_PASSWORD: ${OMNILOJA_DB_PASSWORD:-omniloja_dev_password}
+      TZ: America/Sao_Paulo
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=-03:00
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    volumes:
+      - omniloja-db-data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - omniloja-net
+    restart: unless-stopped
+
+networks:
+  omniloja-net:
+    name: ${OMNILOJA_NETWORK_NAME:-omniloja-net}
+
+volumes:
+  omniloja-db-data:
+    name: ${OMNILOJA_DB_VOLUME_NAME:-omniloja-db-data}
+  omniloja-outputs:
+    name: ${OMNILOJA_OUTPUTS_VOLUME_NAME:-omniloja-outputs}

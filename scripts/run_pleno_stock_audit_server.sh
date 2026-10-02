@@ -43,6 +43,10 @@ die() {
   exit 1
 }
 
+has_mysql_env() {
+  [[ -n "${MYSQL_HOST:-}" && -n "${MYSQL_USER:-}" && -n "${MYSQL_PASSWORD:-}" ]]
+}
+
 is_date() {
   [[ "$1" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]
 }
@@ -117,7 +121,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 [[ -d "$PROJECT_DIR" ]] || die "diretorio do projeto nao encontrado: $PROJECT_DIR"
-[[ -f "$PROJECT_DIR/.env" ]] || die "arquivo .env nao encontrado em $PROJECT_DIR"
+[[ -f "$PROJECT_DIR/.env" || has_mysql_env ]] || die "arquivo .env nao encontrado em $PROJECT_DIR e variaveis MYSQL_HOST/MYSQL_USER/MYSQL_PASSWORD ausentes"
 [[ -f "$PROJECT_DIR/scripts/export_pleno_stock_audit.py" ]] || die "exportador Python nao encontrado"
 
 if [[ "$ALL_LOJAS" -eq 0 && -z "$LOJAS" ]]; then

@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
 import sys
 from datetime import date, datetime
 from decimal import Decimal
@@ -48,15 +49,14 @@ def parse_lojas(value: str | None) -> list[int]:
 
 
 def load_env() -> dict[str, str]:
+    env = dict(os.environ)
     env_path = ROOT / ".env"
-    if not env_path.exists():
-        raise SystemExit(f"Arquivo .env nao encontrado em {env_path}")
-    env = {}
-    for line in env_path.read_text(encoding="utf-8").splitlines():
-        if "=" not in line or line.lstrip().startswith("#"):
-            continue
-        key, value = line.split("=", 1)
-        env[key] = value.strip().strip('"').strip("'")
+    if env_path.exists():
+        for line in env_path.read_text(encoding="utf-8").splitlines():
+            if "=" not in line or line.lstrip().startswith("#"):
+                continue
+            key, value = line.split("=", 1)
+            env[key] = value.strip().strip('"').strip("'")
     return env
 
 
