@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Monitor APIs SAP</title>
+    <link rel="stylesheet" href="/styles.css?v=20260813-scroll-grid-encaminhamentos">
+  </head>
+  <body class="noc-page">
+    <main class="noc-shell">
+      <header class="noc-topbar">
+        <div>
+          <h1 id="pageTitle">Monitor APIs SAP</h1>
+          <p id="pageSubtitle">Deltas de 10 minutos das APIs Pleno que chamam SAP.</p>
+          <div id="autoRefreshStatus" class="auto-refresh-status"></div>
+        </div>
+        <div class="actions">
+          <button id="refreshButton" class="button primary" type="button">Atualizar</button>
+        </div>
+      </header>
+
+      <nav class="sap-tabs" role="tablist" aria-label="Visoes do monitor SAP">
+        <button class="active" type="button" role="tab" aria-selected="true" data-sap-tab-button="monitoramento">Monitoramento</button>
+        <button type="button" role="tab" aria-selected="false" data-sap-tab-button="estatisticas">Estatisticas de erros</button>
+        <button type="button" role="tab" aria-selected="false" data-sap-tab-button="encaminhamento">Encaminhamento</button>
+      </nav>
+
+      <section id="sapKpis" class="kpis business-kpis sap-tab-section" data-sap-tab="monitoramento"></section>
+
+      <section class="split sap-tab-section" data-sap-tab="monitoramento">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Erros por janela</h2>
+            <span id="errorChartMeta" class="panel-meta"></span>
+          </div>
+          <div id="errorChart" class="chart"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Sucessos por janela</h2>
+            <span id="successChartMeta" class="panel-meta"></span>
+          </div>
+          <div id="successChart" class="chart"></div>
+        </div>
+      </section>
+
+      <section class="split sap-tab-section" data-sap-tab="monitoramento">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Media entre respostas</h2>
+            <span class="panel-meta">ultimas 24 h · proxy por timestamp</span>
+          </div>
+          <div id="responseChart" class="chart"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Distribuicao atual</h2>
+            <span id="distributionMeta" class="panel-meta"></span>
+          </div>
+          <div id="distributionChart" class="chart"></div>
+        </div>
+      </section>
+
+      <section class="panel sap-tab-section" data-sap-tab="estatisticas" hidden>
+        <div class="panel-head">
+          <h2>Historico por API e motivo</h2>
+          <div class="panel-controls">
+            <button id="openManualErrorSearch" class="button" type="button">Buscar erro por loja</button>
+            <label for="historyGrain">Zoom</label>
+            <select id="historyGrain">
+              <option value="hour" selected>Hora</option>
+              <option value="day">Dia</option>
+              <option value="week">Semana</option>
+              <option value="month">Mes</option>
+            </select>
+            <label for="historyGrouping">Classificar</label>
+            <select id="historyGrouping">
+              <option value="period" selected>Por periodo</option>
+              <option value="hourOfDay">Hora do dia</option>
+              <option value="weekday">Dia da semana</option>
+              <option value="dayOfMonth">Dia do mes</option>
+            </select>
+            <label for="historyStart">De</label>
+            <input id="historyStart" type="datetime-local">
+            <label for="historyEnd">Ate</label>
+            <input id="historyEnd" type="datetime-local">
+            <button id="applyHistoryRange" class="button" type="button">Aplicar</button>
+          </div>
+        </div>
+        <div class="split statistics-charts">
+          <div>
+            <div class="panel-subhead">API x erro SAP</div>
+            <div id="historyReasonChart" class="chart history-chart"></div>
+          </div>
+          <div>
+            <div class="panel-subhead">Problemas por transacao</div>
+            <div id="historyTransactionLineChart" class="chart history-chart"></div>
+          </div>
+        </div>
+        <section class="statistics-treatment-grid" aria-label="Tratamento de erros nas ultimas 24 horas">
+          <div class="statistics-treatment-card">
+            <div class="panel-subhead">Erros por departamento - ultimas 24 horas</div>
+            <div class="table-wrap compact-table statistics-treatment-table-wrap">
+              <table id="statisticsDepartment24hTable"></table>
+            </div>
+            <div id="statisticsDepartment24hStatus" class="table-status"></div>
+          </div>
+          <div class="statistics-treatment-card">
+            <div class="panel-subhead">Reincidencia de erros</div>
+            <div id="statisticsRecurrence24h" class="statistics-recurrence-list"></div>
+            <div id="statisticsRecurrenceStatus" class="table-status"></div>
+          </div>
+        </section>
+        <div id="statisticsAppliedScope" class="table-status"></div>
+        <div class="table-wrap noc-table-wrap compact-table">
+          <table id="historyReasonTable"></table>
+        </div>
+        <div id="historyReasonStatus" class="table-status"></div>
+      </section>
+
+      <section class="sap-tab-section triage-view" data-sap-tab="encaminhamento" hidden>
+        <section class="panel triage-routing-panel">
+          <div class="panel-head"><h2>Cadastro de responsaveis por erro</h2><span class="panel-meta">Um erro pode ser encaminhado para mais de um departamento</span></div>
+          <form id="triageRoutingForm" class="triage-routing-form">
+            <label>Erro
+              <select id="triageRoutingPattern" required>
+                <option value="">Selecione um erro sem encaminhamento</option>
+              </select>
+            </label>
+            <label>Departamento responsavel
+              <select id="triageRoutingDepartment" required>
+                <option value="">Cadastre primeiro o departamento abaixo</option>
+              </select>
+            </label>
+            <button class="button primary" type="submit">Adicionar departamento</button>
+          </form>
+          <div class="table-wrap noc-table-wrap compact-table"><table id="triageRoutingTable"></table></div>
+          <div id="triageRoutingStatus" class="table-status"></div>
+        </section>
+        <section class="panel triage-memo-panel">
+          <div class="panel-head"><h2>Memo para encaminhamento</h2><span id="triageChatMeta" class="panel-meta"></span></div>
+          <div class="triage-memo-controls">
+            <label>Departamento <select id="triageMemoDepartment"><option value="">Selecione</option></select></label>
+            <label>De <input id="triageMemoStart" type="datetime-local"></label>
+            <label>Ate <input id="triageMemoEnd" type="datetime-local"></label>
+            <button id="generateTriageMemo" class="button" type="button">Gerar memo</button>
+            <button id="copyTriageMemo" class="button primary" type="button" disabled>Copiar memo</button>
+            <button id="sendTriageMemo" class="button" type="button" disabled>Enviar ao Chat</button>
+          </div>
+          <pre id="triageMemoBody" class="triage-memo-body">Selecione o departamento e o periodo.</pre>
+          <div id="triageMemoStatus" class="table-status"></div>
+        </section>
+        <section class="panel triage-chat-panel">
+          <div class="panel-head"><h2>Cadastro de departamentos</h2><span class="panel-meta">Defina para qual Google Chat cada departamento recebera os erros</span></div>
+          <form id="triageChatForm" class="triage-chat-form">
+            <input id="triageChatId" type="hidden">
+            <label>Nome do departamento <input id="triageChatDepartment" required list="triageDepartmentOptions" placeholder="Ex.: Fiscal"></label>
+            <datalist id="triageDepartmentOptions"></datalist>
+            <label>Webhook do Google Chat <input id="triageChatWebhook" type="url" placeholder="https://chat.googleapis.com/..." autocomplete="off"></label>
+            <button id="saveTriageChatDepartment" class="button primary" type="submit">Cadastrar departamento</button>
+            <button id="cancelTriageChatEdit" class="button" type="button" hidden>Cancelar</button>
+          </form>
+          <div class="table-wrap noc-table-wrap compact-table triage-chat-table"><table id="triageChatTable"></table></div>
+          <div class="triage-send-all">
+            <label>Teste de envio / envio completo
+              <select id="triageSendDepartment"><option value="">Selecione um departamento com webhook</option></select>
+            </label>
+            <button id="sendAllTriageErrors" class="button primary" type="button">Enviar todos os erros</button>
+          </div>
+          <div id="triageChatStatus" class="table-status"></div>
+        </section>
+        <section class="split">
+          <div class="panel">
+            <div class="panel-head"><h2>Fila por departamento</h2><span id="triageUpdatedAt" class="panel-meta"></span></div>
+            <div class="table-wrap noc-table-wrap compact-table"><table id="triageDepartmentTable"></table></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Ranking de erros por area</h2><span class="panel-meta">ultimas 24 h · por quantidade</span></div>
+            <div class="table-wrap noc-table-wrap compact-table"><table id="triageReasonTable"></table></div>
+          </div>
+        </section>
+        <section class="panel triage-recent-panel">
+          <div class="panel-head"><h2>Ocorrencias recentes</h2><span class="panel-meta">ultimas 8 com referencia do log</span></div>
+          <div class="table-wrap noc-table-wrap compact-table triage-occurrences"><table id="triageOccurrenceTable"></table></div>
+          <div id="triageStatus" class="table-status"></div>
+        </section>
+      </section>
+
+      <section class="panel sap-tab-section" data-sap-tab="monitoramento">
+        <div class="panel-head">
+          <h2>Transacoes na ultima janela</h2>
+          <span id="sapUpdatedAt" class="panel-meta"></span>
+        </div>
+        <div class="table-wrap noc-table-wrap">
+          <table id="sapTable"></table>
+        </div>
+        <div id="sapStatus" class="table-status"></div>
+      </section>
+
+      <section class="panel sap-tab-section" data-sap-tab="estatisticas" hidden>
+        <div class="panel-head">
+          <h2>Principais motivos</h2>
+        </div>
+        <div class="table-wrap noc-table-wrap">
+          <table id="reasonTable"></table>
+        </div>
+      </section>
+
+      <section class="panel sap-tab-section" data-sap-tab="monitoramento">
+        <div class="panel-head">
+          <h2>Notas CD 704 para check-in no Pleno</h2>
+          <span id="checkinUpdatedAt" class="panel-meta"></span>
+        </div>
+        <div id="checkinKpis" class="kpis business-kpis compact-kpis"></div>
+        <div class="panel-subhead">Evolucao do check-in</div>
+        <div id="checkinTrendChart" class="chart"></div>
+        <div class="split checkin-split">
+          <div>
+            <div class="panel-subhead">Notas pendentes</div>
+            <div class="table-wrap noc-table-wrap compact-table">
+              <table id="checkinNoteTable"></table>
+            </div>
+          </div>
+          <div>
+            <div class="panel-subhead">Pendencias por loja</div>
+            <div class="table-wrap noc-table-wrap compact-table">
+              <table id="checkinStoreTable"></table>
+            </div>
+          </div>
+        </div>
+        <div id="checkinStatus" class="table-status"></div>
+      </section>
+    </main>
+    <div id="transactionModal" class="modal-backdrop" hidden>
+      <section class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="transactionModalTitle">
+        <div class="modal-head">
+          <div>
+            <h2 id="transactionModalTitle">Detalhe da transacao</h2>
+            <p id="transactionModalSubtitle"></p>
+          </div>
+          <button id="closeTransactionModal" class="button icon-button" type="button" aria-label="Fechar">X</button>
+        </div>
+        <div class="modal-actions">
+          <button id="copyTransactionSummary" class="button primary" type="button">Copiar resumo</button>
+          <button id="copyTransactionJson" class="button" type="button">Copiar JSON</button>
+          <div class="detail-query">
+            <label for="transactionPeriod">Periodo</label>
+            <select id="transactionPeriod">
+              <option value="10" selected>Ultimos 10 minutos</option>
+              <option value="30">Ultimos 30 minutos</option>
+              <option value="60">Ultima 1 hora</option>
+              <option value="180">Ultimas 3 horas</option>
+              <option value="360">Ultimas 6 horas</option>
+              <option value="720">Ultimas 12 horas</option>
+              <option value="1440">Ultimas 24 horas</option>
+            </select>
+            <button id="loadTransactionDetails" class="button" type="button">Buscar detalhes</button>
+          </div>
+          <span id="copyTransactionStatus" class="copy-status"></span>
+          <span id="transactionDetailStatus" class="copy-status"></span>
+        </div>
+        <pre id="transactionModalBody" class="modal-pre"></pre>
+      </section>
+    </div>
+    <div id="manualErrorModal" class="modal-backdrop" hidden>
+      <section class="modal-panel manual-error-modal" role="dialog" aria-modal="true" aria-labelledby="manualErrorModalTitle">
+        <div class="modal-head">
+          <div>
+            <h2 id="manualErrorModalTitle">Buscar retorno SAP por loja</h2>
+            <p>Pesquisa os erros e retornos sem classificacao no log, incluindo JSON de envio quando registrado.</p>
+          </div>
+          <button id="closeManualErrorModal" class="button icon-button" type="button" aria-label="Fechar">X</button>
+        </div>
+        <form id="manualErrorSearchForm" class="manual-error-form">
+          <label>Loja
+            <input id="manualErrorStore" name="store" inputmode="numeric" pattern="[0-9]*" placeholder="Ex.: 1055" required>
+          </label>
+          <label>Motivo ou texto retornado pelo SAP
+            <textarea id="manualErrorReason" name="reason" rows="3" placeholder="Ex.: Recusado. Aguardando SAP ou ERRO CARREGANDO ITENS" required></textarea>
+          </label>
+          <label>Horario aproximado (opcional)
+            <input id="manualErrorAt" name="approximateAt" type="datetime-local">
+          </label>
+          <label>Faixa de busca
+            <select id="manualErrorMinutes" name="minutes">
+              <option value="60">1 hora</option>
+              <option value="120" selected>2 horas</option>
+              <option value="240">4 horas</option>
+              <option value="480">8 horas</option>
+            </select>
+          </label>
+          <div class="manual-error-actions">
+            <button id="runManualErrorSearch" class="button primary" type="submit">Buscar no log</button>
+            <span id="manualErrorStatus" class="copy-status"></span>
+          </div>
+        </form>
+        <div class="modal-actions manual-result-actions">
+          <button id="copyManualErrorSummary" class="button primary" type="button" disabled>Copiar resumo</button>
+          <button id="copyManualErrorJson" class="button" type="button" disabled>Copiar JSON</button>
+        </div>
+        <pre id="manualErrorModalBody" class="modal-pre">Informe a loja e o motivo para consultar o log.</pre>
+      </section>
+    </div>
+    <script src="/sap-api-monitor.js?v=20260813-scroll-ocorrencias" type="module"></script>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tesouraria - Indicadores por Loja</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body class="tesouraria-page">
+    <main class="tesouraria-shell">
+      <header class="tesouraria-topbar">
+        <div>
+          <a class="tesouraria-back" href="/tesouraria-cofre-inteligente.html">Acompanhamento diário</a>
+          <h1>Indicadores por Loja</h1>
+          <p>Visão diária de pendências e execução.</p>
+        </div>
+        <div class="tesouraria-actions"><span class="tesouraria-version">COFRE v2026.09.11-3</span><button id="refreshButton" class="tesouraria-icon-button" type="button" title="Atualizar dados" aria-label="Atualizar dados">↻</button></div>
+      </header>
+      <section class="tesouraria-filters" aria-label="Filtros">
+        <label>Período inicial<input id="startDate" type="date"></label>
+        <label>Período final<input id="endDate" type="date"></label>
+        <label>Situação<select id="viewFilter"><option value="all">Todas as situações</option><option value="em_aberto">Em aberto</option><option value="sem_transferencia">Sem transferência</option><option value="falha">Falha</option><option value="duplicada">Duplicada</option><option value="concluida">Concluída</option><option value="ja_liquidada">Já liquidada</option></select></label>
+        <div class="tesouraria-query-actions"><button id="runQueryButton" class="tesouraria-query-button" type="button">Consultar</button><span id="queryStatus" class="tesouraria-query-status" aria-live="polite">Pronto para consultar</span></div>
+      </section>
+      <section id="kpis" class="tesouraria-kpis"></section>
+      <section class="tesouraria-problem-section" aria-label="Principais problemas do período">
+        <div class="tesouraria-table-head"><div><h2>Maiores problemas nas datas pendentes</h2><span id="problemPeriod">Carregando...</span></div></div>
+        <div id="problemRanking" class="tesouraria-problem-list"></div>
+      </section>
+      <section class="tesouraria-table-section tesouraria-date-summary">
+        <div class="tesouraria-table-head"><div><h2>Pendências por data</h2><span>Clique em uma data para detalhar as lojas.</span></div></div>
+        <div id="openDates" class="tesouraria-date-list"></div>
+      </section>
+      <section class="tesouraria-table-section">
+        <div class="tesouraria-table-head"><div><h2>Detalhe por loja</h2><span id="tableMeta">Carregando...</span></div></div>
+        <div id="records" class="tesouraria-record-grid"></div>
+      </section>
+    </main>
+    <script src="/tesouraria-cofre-indicadores.js" type="module"></script>
+  </body>
+</html>

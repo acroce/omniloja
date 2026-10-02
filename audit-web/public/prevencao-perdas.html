@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Prevencao e Perdas</title><link rel="stylesheet" href="/styles.css"></head>
+  <body class="tesouraria-page">
+    <main class="tesouraria-shell">
+      <header class="tesouraria-topbar">
+        <div>
+          <div class="tesouraria-crumb"><a href="/">Auditoria Pleno</a><span>›</span><b>Prevencao e perdas</b></div>
+          <div class="tesouraria-title-row"><h1>Prevencao e Perdas</h1><span id="runStatus" class="tesouraria-status neutral">Sem informacao</span></div>
+          <p>Emissao de NF-e de retificacao de sobra e falta pelo Pleno.</p>
+          <div id="executionMeta" class="tesouraria-execution-meta"></div>
+        </div>
+        <div class="tesouraria-actions"><span id="appVersion" class="tesouraria-version">GRPP v2026.09.23-1</span><button id="refreshButton" class="tesouraria-icon-button" type="button" title="Atualizar dados" aria-label="Atualizar dados">↻</button><button id="executeButton" class="tesouraria-execute-button" type="button">Executar agora</button><button id="exportButton" class="tesouraria-export-button" type="button">Exportar relatorio</button></div>
+      </header>
+      <div class="tesouraria-overview">
+        <section class="tesouraria-filter-card" aria-label="Filtros">
+          <div class="tesouraria-section-title"><h2>Filtros de pesquisa</h2><span id="queryStatus" class="tesouraria-query-status" aria-live="polite">Pronto para consultar</span></div>
+          <div class="tesouraria-filter-grid">
+            <label>Filial<select id="filialFilter"><option value="all">Todas as filiais</option></select></label>
+            <label>Situacao<select id="statusFilter"><option value="all">Todas</option><option value="erro">Erros</option><option value="pendente_reconsulta">Aguardando retorno SAP</option><option value="pendente_revalidacao_pleno">Revalidar link Pleno</option><option value="concluido">Concluidas</option><option value="em_processamento">Em processamento</option></select></label>
+          </div>
+          <div class="tesouraria-filter-footer"><button id="runQueryButton" class="tesouraria-query-button" type="button">Aplicar filtros</button></div>
+        </section>
+        <aside id="history" class="tesouraria-recommendations"></aside>
+      </div>
+      <section id="kpis" class="tesouraria-kpis"></section>
+      <section class="tesouraria-monitor-section"><div class="tesouraria-monitor-head"><div><h2>Notas acompanhadas</h2><span id="tableMeta">Carregando...</span></div><span class="tesouraria-view-label">Cartoes</span></div><div id="records" class="tesouraria-record-grid"></div></section>
+    </main>
+    <script src="/prevencao-perdas.js" type="module"></script>
+  </body>
+</html>

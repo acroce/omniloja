@@ -1,0 +1,26 @@
+{
+  "name": "tabelas-pleno-mysql",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "conex": "node src/query-conex.js",
+    "test-connection": "node src/test-connection.js",
+    "whatsapp-zapi": "node src/whatsapp-zapi/server.mjs",
+    "whatsapp-zapi:register": "node src/whatsapp-zapi/register-webhook.mjs",
+    "whatsapp-web": "node src/whatsapp-web/server.mjs",
+    "whatsapp-web:watch": "node src/whatsapp-web/watcher.mjs",
+    "audit-web": "node audit-web/server.mjs",
+    "pleno-login": "node scripts/pleno-login.mjs",
+    "pleno-checkin-nf": "node scripts/pleno-checkin-nf.mjs",
+    "pleno-transacao-transferencia": "node scripts/pleno-transacao-transferencia.mjs",
+    "prevencao-perdas": "node scripts/prevencao-perdas-lote.mjs",
+    "atualizar-estoque": "python3 scripts/painel_atualizacao_estoque.py",
+    "tesouraria:cofre": "python3 scripts/generate_tesouraria_cofre_inteligente_csv.py",
+    "send-daily-pleno-chat": "node scripts/send_daily_pleno_reports_google_chat_web.mjs"
+  },
+  "dependencies": {
+    "mysql2": "^3.15.3",
+    "playwright": "^1.54.1"
+  }
+}

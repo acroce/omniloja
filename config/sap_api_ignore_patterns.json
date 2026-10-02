@@ -1,0 +1,16 @@
+{
+  "ignorePatterns": [
+    {
+      "pattern": "chave nfe recebida",
+      "reason": "Chave NFe nao tem 44 caracteres"
+    },
+    {
+      "pattern": "NF já fechada no check-in",
+      "reason": "NF ja fechada no check-in"
+    },
+    {
+      "pattern": "NF ja fechada no check-in",
+      "reason": "NF ja fechada no check-in"
+    }
+  ]
+}

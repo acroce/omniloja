@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Configuração de Alertas NOC</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body class="noc-page alert-settings-page">
+    <main class="alert-settings-shell">
+      <header class="operacional-topbar">
+        <div class="operacional-brand">
+          <span aria-hidden="true">⚙</span>
+          <h1>Configuração de Alertas</h1>
+        </div>
+        <a class="op-refresh" href="/operacional-monitor.html" title="Voltar ao monitor" aria-label="Voltar ao monitor">←</a>
+      </header>
+
+      <form id="alertPolicyForm" class="alert-policy-form">
+        <section class="alert-settings-section">
+          <div class="alert-settings-head">
+            <div>
+              <h2>Regra padrão</h2>
+              <p>Usada quando um processo não possui uma exceção própria.</p>
+            </div>
+            <span id="alertPolicyUpdatedAt" class="op-panel-meta">-</span>
+          </div>
+          <div id="alertPolicyDefaults" class="alert-settings-fields"></div>
+        </section>
+
+        <section class="alert-settings-section">
+          <div class="alert-settings-head">
+            <div>
+              <h2>Processos</h2>
+              <p>Use “Em análise” para pausar somente as mensagens de um processo; a coleta e o status do painel continuam ativos.</p>
+            </div>
+          </div>
+          <div id="alertPolicyScopes" class="alert-process-list"></div>
+        </section>
+
+        <section class="alert-settings-section">
+          <div class="alert-settings-head">
+            <div>
+              <h2>Destinos</h2>
+              <p>O webhook do Google Chat é protegido: depois de salvo, a URL não é exibida novamente.</p>
+            </div>
+            <button id="addGoogleChatDestination" class="alert-reset-scope" type="button">Adicionar grupo Google Chat</button>
+          </div>
+          <div id="alertPolicyDestinations" class="alert-destination-list"></div>
+        </section>
+
+        <footer class="alert-settings-footer">
+          <span id="alertPolicyStatus" role="status">Carregando configuração...</span>
+          <button class="alert-save-button" type="submit">Salvar configuração</button>
+        </footer>
+      </form>
+    </main>
+    <script src="/alertas-noc.js"></script>
+  </body>
+</html>

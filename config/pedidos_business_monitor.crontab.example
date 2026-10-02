@@ -1,0 +1,14 @@
+SHELL=/bin/sh
+PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+# Monitor Pedidos Pleno - NOC
+# 07:55: chegada dos arquivos originais, aceitando fallback imp.* se ja existir
+# 08:05: primeira consulta MySQL
+# 08:10: segunda checagem dos arquivos imp.* e segunda consulta MySQL
+# 09:30: arquivo RELEX gerado
+# 09:35: confirmacao do envio ao RELEX em processados
+55 7 * * * cd /Users/alexandrematheuscrose/Documents/Codex/2026-05-19/tabelas-pleno-vamos-criar-uma-conex && scripts/run_pedidos_business_monitor_step.sh remote >> outputs/pleno_business_monitor/logs/pedidos_cron.log 2>&1
+5 8 * * * cd /Users/alexandrematheuscrose/Documents/Codex/2026-05-19/tabelas-pleno-vamos-criar-uma-conex && scripts/run_pedidos_business_monitor_step.sh mysql_0805 >> outputs/pleno_business_monitor/logs/pedidos_cron.log 2>&1
+10 8 * * * cd /Users/alexandrematheuscrose/Documents/Codex/2026-05-19/tabelas-pleno-vamos-criar-uma-conex && scripts/run_pedidos_business_monitor_step.sh check_0810 >> outputs/pleno_business_monitor/logs/pedidos_cron.log 2>&1
+30 9 * * * cd /Users/alexandrematheuscrose/Documents/Codex/2026-05-19/tabelas-pleno-vamos-criar-uma-conex && scripts/run_pedidos_business_monitor_step.sh relex_0930 >> outputs/pleno_business_monitor/logs/pedidos_cron.log 2>&1
+35 9 * * * cd /Users/alexandrematheuscrose/Documents/Codex/2026-05-19/tabelas-pleno-vamos-criar-uma-conex && scripts/run_pedidos_business_monitor_step.sh relex_processados >> outputs/pleno_business_monitor/logs/pedidos_cron.log 2>&1

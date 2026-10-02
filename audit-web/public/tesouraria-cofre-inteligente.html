@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Cofre Inteligente</title><link rel="stylesheet" href="/styles.css"></head>
+  <body class="tesouraria-page">
+    <main class="tesouraria-shell">
+      <header class="tesouraria-topbar">
+        <div>
+          <div class="tesouraria-crumb"><a href="/tesouraria-cofre-indicadores.html">Monitoramento</a><span>›</span><b>Fechamento por loja e data</b></div>
+          <div class="tesouraria-title-row"><h1>Cofre Inteligente</h1><span id="runStatus" class="tesouraria-status neutral">Sem informação</span></div>
+          <p>Fechamentos validados entre Pleno X Brinks.</p>
+          <div id="executionMeta" class="tesouraria-execution-meta"></div>
+        </div>
+        <div class="tesouraria-actions"><span class="tesouraria-version">COFRE v2026.09.11-3</span><button id="refreshButton" class="tesouraria-icon-button" type="button" title="Atualizar dados" aria-label="Atualizar dados">↻</button><button id="executeButton" class="tesouraria-execute-button" type="button">Executar agora</button><button id="exportButton" class="tesouraria-export-button" type="button">Exportar relatório</button></div>
+      </header>
+      <div class="tesouraria-overview">
+        <section class="tesouraria-filter-card" aria-label="Filtros">
+          <div class="tesouraria-section-title"><h2>Filtros de pesquisa</h2><span id="queryStatus" class="tesouraria-query-status" aria-live="polite">Pronto para consultar</span></div>
+          <div class="tesouraria-filter-grid">
+            <label>Loja<select id="storeFilter"><option value="all">Todas as lojas</option></select></label><label>Situação<select id="statusFilter"><option value="all">Todas as situações</option><option value="em_aberto">Em aberto</option><option value="erro">Erro</option><option value="duplicado">Duplicada</option></select></label><label>Erro<select id="errorFilter"><option value="all">Todos os erros</option><option value="ocr">OCR / comprovante</option><option value="brinks">Brinks</option><option value="pleno">Pleno</option></select></label>
+          </div>
+          <div class="tesouraria-filter-footer"><label class="tesouraria-toggle"><input id="pendingOnly" type="checkbox"> Somente processos sem prestação concluída</label><button id="runQueryButton" class="tesouraria-query-button" type="button">Aplicar filtros</button></div>
+        </section>
+        <aside id="recommendations" class="tesouraria-recommendations"></aside>
+      </div>
+      <section id="kpis" class="tesouraria-kpis"></section>
+      <section class="tesouraria-monitor-section"><div class="tesouraria-monitor-head"><div><h2>Monitoramento por loja</h2><span id="tableMeta">Carregando...</span></div><span class="tesouraria-view-label">Cartões</span></div><div id="records" class="tesouraria-record-grid"></div></section>
+    </main>
+    <script src="/tesouraria-cofre-inteligente.js" type="module"></script>
+  </body>
+</html>

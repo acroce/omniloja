@@ -1,0 +1,21 @@
+services:
+  pleno-audit-web:
+    env_file:
+      - .env
+    environment:
+      TZ: America/Sao_Paulo
+      AUDIT_WEB_HOST: 0.0.0.0
+      AUDIT_WEB_PORT: ${NOC_AUDIT_WEB_PORT:-8094}
+      SAP_API_MONITOR_ENABLED: ${SAP_API_MONITOR_ENABLED_NOC:-1}
+      SAP_API_MONITOR_INTERVAL_MS: "600000"
+      SAP_API_GOOGLE_CHAT_ENABLED: "${SAP_API_GOOGLE_CHAT_ENABLED:-1}"
+      SAP_API_GOOGLE_CHAT_INTERVAL_MS: "3600000"
+      SAP_API_REMOTE_HOST: ${SAP_API_REMOTE_HOST:-172.22.20.101}
+      SAP_API_REMOTE_USER: ${SAP_API_REMOTE_USER:-${STOCK_REMOTE_USER:-amc018br}}
+      SAP_API_REMOTE_PORT: ${SAP_API_REMOTE_PORT:-22}
+      CHECKIN_NOTAS_MONITOR_ENABLED: "1"
+      CHECKIN_NOTAS_MONITOR_INTERVAL_MS: "600000"
+    volumes:
+      - ./.env:/app/.env:ro
+      - ./outputs:/app/outputs
+      - ./config:/app/config:ro

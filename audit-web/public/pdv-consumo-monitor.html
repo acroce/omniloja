@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Importação PDV</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body class="pdv-import-page">
+    <main class="pdv-import-shell">
+      <header class="pdv-import-topbar">
+        <h1>Importação PDV</h1>
+        <div>
+          <span class="op-version" title="Versão do painel">v2026.09.28-7</span>
+          <a class="op-refresh" href="/operacional-monitor.html" title="Voltar ao monitor" aria-label="Voltar ao monitor">←</a>
+          <button id="refreshButton" class="op-refresh" type="button" title="Atualizar agora" aria-label="Atualizar agora">↻</button>
+        </div>
+      </header>
+      <section class="pdv-import-report">
+        <p id="roundMeta" class="pdv-import-meta">Aguardando coleta.</p>
+        <table class="pdv-import-table">
+          <thead><tr><th>Área</th><th>Conteúdo igual ao original ARIUS</th><th><code>imp.</code> recente correspondente</th><th>Nome original</th></tr></thead>
+          <tbody id="areaRows"></tbody>
+        </table>
+        <p id="reportNotice" class="pdv-import-notice"></p>
+        <button id="filesButton" class="pdv-files-button" type="button">Ver arquivos</button>
+      </section>
+    </main>
+    <div id="filesModal" class="pdv-files-modal" hidden>
+      <div class="pdv-files-backdrop" data-close-files></div>
+      <section class="pdv-files-panel" role="dialog" aria-modal="true" aria-labelledby="filesTitle">
+        <header><h2 id="filesTitle">Arquivos da importação</h2><button id="filesClose" class="op-refresh" type="button" title="Fechar" aria-label="Fechar">×</button></header>
+        <div class="pdv-files-controls">
+          <div class="pdv-files-tabs" role="group" aria-label="Situação dos arquivos"><button type="button" data-file-filter="imported" class="is-active">Importados</button><button type="button" data-file-filter="pending">Aguardando</button></div>
+          <input id="storeFilter" type="search" inputmode="numeric" placeholder="Filtrar loja" aria-label="Filtrar por loja">
+        </div>
+        <div id="filesList" class="pdv-files-list"></div>
+      </section>
+    </div>
+    <script src="/pdv-consumo-monitor.js" type="module"></script>
+  </body>
+</html>

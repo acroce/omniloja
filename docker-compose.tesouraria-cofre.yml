@@ -1,0 +1,29 @@
+services:
+  cofre-inteligente:
+    build:
+      context: .
+      dockerfile: Dockerfile.tesouraria-cofre
+    env_file:
+      - .env
+    environment:
+      TZ: America/Sao_Paulo
+      AUDIT_WEB_HOST: 0.0.0.0
+      AUDIT_WEB_PORT: ${TESOURARIA_WEB_PORT:-8095}
+      TESOURARIA_LIMIT: "1000"
+      TESOURARIA_INCLUDE_RETRIES: "1"
+      TESOURARIA_LOCK_FILE: /app/outputs/tesouraria_cofre_inteligente/tesouraria.lock
+      OCR_PADDLE_ONNX: "1"
+      OCR_PADDLE_ONNX_PYTHON: /opt/ocr/bin/python
+      OCR_PADDLE_ONNX_TIMEOUT_MS: "45000"
+      TESSERACT_BIN: /app/scripts/tesseract-with-timeout.sh
+      TESOURARIA_OCR_FAST: "1"
+      PLENO_CHROME_PATH: ""
+    ports:
+      - "8095:8095"
+    volumes:
+      - ./outputs/tesouraria_cofre_inteligente:/app/outputs/tesouraria_cofre_inteligente
+      - ./.cache/tesouraria-cofre:/app/.cache
+      - ./models:/app/models
+      - ./.env:/app/.env:ro
+      - /tmp/tesouraria-cofre-inteligente.lock:/app/outputs/tesouraria_cofre_inteligente/tesouraria.lock
+    restart: unless-stopped

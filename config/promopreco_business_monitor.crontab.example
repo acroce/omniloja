@@ -1,0 +1,15 @@
+SHELL=/bin/sh
+PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+# Monitor Promocao e Precos - NOC
+# Rodada 1: S1 04:30; S2 04:40.
+# Rodada 2: S1 06:30; S2 06:40.
+# O mesmo coletor valida arquivos em PROM/PROD e arquivos imp.*.
+30 4 * * * cd /Users/alexandrematheuscrose/Documents/Codex/2026-05-19/tabelas-pleno-vamos-criar-uma-conex && python3 scripts/update_promopreco_monitor.py --server s1 >> outputs/pleno_business_monitor/logs/promopreco_cron.log 2>&1
+35 4 * * * cd /Users/alexandrematheuscrose/Documents/Codex/2026-05-19/tabelas-pleno-vamos-criar-uma-conex && python3 scripts/update_promopreco_monitor.py --server s1 >> outputs/pleno_business_monitor/logs/promopreco_cron.log 2>&1
+40 4 * * * cd /Users/alexandrematheuscrose/Documents/Codex/2026-05-19/tabelas-pleno-vamos-criar-uma-conex && python3 scripts/update_promopreco_monitor.py --server all >> outputs/pleno_business_monitor/logs/promopreco_cron.log 2>&1
+45 4 * * * cd /Users/alexandrematheuscrose/Documents/Codex/2026-05-19/tabelas-pleno-vamos-criar-uma-conex && python3 scripts/update_promopreco_monitor.py --server s2 >> outputs/pleno_business_monitor/logs/promopreco_cron.log 2>&1
+30 6 * * * cd /Users/alexandrematheuscrose/Documents/Codex/2026-05-19/tabelas-pleno-vamos-criar-uma-conex && python3 scripts/update_promopreco_monitor.py --server s1 >> outputs/pleno_business_monitor/logs/promopreco_cron.log 2>&1
+35 6 * * * cd /Users/alexandrematheuscrose/Documents/Codex/2026-05-19/tabelas-pleno-vamos-criar-uma-conex && python3 scripts/update_promopreco_monitor.py --server s1 >> outputs/pleno_business_monitor/logs/promopreco_cron.log 2>&1
+40 6 * * * cd /Users/alexandrematheuscrose/Documents/Codex/2026-05-19/tabelas-pleno-vamos-criar-uma-conex && python3 scripts/update_promopreco_monitor.py --server all >> outputs/pleno_business_monitor/logs/promopreco_cron.log 2>&1
+45 6 * * * cd /Users/alexandrematheuscrose/Documents/Codex/2026-05-19/tabelas-pleno-vamos-criar-uma-conex && python3 scripts/update_promopreco_monitor.py --server s2 >> outputs/pleno_business_monitor/logs/promopreco_cron.log 2>&1

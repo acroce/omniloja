@@ -1,0 +1,7 @@
+# Uma loja por linha, ou separadas por virgula.
+# Linhas iniciadas com # sao ignoradas.
+#
+# Exemplo:
+# 155
+# 203
+# 155,203,586

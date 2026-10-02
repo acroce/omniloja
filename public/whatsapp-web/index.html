@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WhatsApp Monitor</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div>
+        <h1>WhatsApp</h1>
+        <p>Monitor operacional <span class="app-version">v2026.08.05-observacao</span></p>
+      </div>
+      <section class="target-box">
+        <label class="target-chat">
+          <span>Grupo monitorado opcional</span>
+          <input id="targetChat" placeholder="Vazio = conversa aberta na tela" />
+        </label>
+        <button id="saveTargetChat">Salvar grupo</button>
+      </section>
+      <nav>
+        <button class="active" data-status="">Todas</button>
+        <button data-status="novo">Novas</button>
+        <button data-status="em_atendimento">Em atendimento</button>
+        <button data-status="respondido">Respondidas</button>
+        <button data-status="concluido">Concluidas</button>
+        <button data-status="ignorado">Ignoradas</button>
+      </nav>
+      <section class="view-box">
+        <button id="showMessages" class="active" type="button">Mensagens</button>
+        <button id="showDashboard" type="button">Dashboard</button>
+      </section>
+      <div class="watcher">
+        <span id="watcherState">Watcher parado</span>
+        <button id="toggleWatcher">Iniciar</button>
+      </div>
+      <section class="reports-box">
+        <a href="/api/reports/messages.csv">Baixar CSV</a>
+      </section>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div class="metric"><span id="m24">0</span><small>24h</small></div>
+        <div class="metric"><span id="mNew">0</span><small>novas</small></div>
+        <div class="metric"><span id="mHigh">0</span><small>alta prioridade</small></div>
+        <label class="search">
+          <input id="search" placeholder="Buscar remetente, loja ou mensagem" />
+        </label>
+      </header>
+
+      <section class="utility-menu">
+        <button id="toggleReportPanel" type="button" data-panel="report">Relatorio</button>
+        <button id="toggleCategoriesPanel" type="button" data-panel="categories">Categorias</button>
+        <button id="toggleMarkersPanel" type="button" data-panel="markers">Marcadores</button>
+        <button id="toggleEventsPanel" type="button" data-panel="events">Eventos</button>
+      </section>
+
+      <section class="utility-panel" id="utilityPanel" hidden>
+        <section class="utility-section" data-panel-content="report" hidden>
+          <h2>Relatorio</h2>
+          <div id="reportSummary"></div>
+        </section>
+        <section class="utility-section" data-panel-content="categories" hidden>
+          <h2>Categorias</h2>
+          <form id="categoryForm" class="category-form">
+            <input id="categoryId" type="hidden" />
+            <input id="categoryName" placeholder="Categoria" />
+            <div class="form-row">
+              <select id="categoryPriority">
+                <option value="normal">Normal</option>
+                <option value="alta">Alta</option>
+                <option value="baixa">Baixa</option>
+              </select>
+              <select id="categorySentiment">
+                <option value="Checking">Checking</option>
+                <option value="Causa 1">Causa 1</option>
+                <option value="Causa 2">Causa 2</option>
+                <option value="Causa 3">Causa 3</option>
+                <option value="Causa 4">Causa 4</option>
+                <option value="Causa 5">Causa 5</option>
+                <option value="Causa 6">Causa 6</option>
+                <option value="Causa 7">Causa 7</option>
+                <option value="Causa 19">Causa 19</option>
+                <option value="Causa 20">Causa 20</option>
+                <option value="Causa 21">Causa 21</option>
+                <option value="Transferencia entre lojas">Transferencia entre lojas</option>
+                <option value="Retificação">Retificação</option>
+              </select>
+            </div>
+            <textarea id="categoryKeywords" placeholder="palavra1, palavra2, palavra3"></textarea>
+            <button>Salvar categoria</button>
+            <button id="deleteCategory" class="danger" type="button">Apagar categoria</button>
+          </form>
+          <div id="categories"></div>
+        </section>
+        <section class="utility-section" data-panel-content="markers" hidden>
+          <h2>Marcadores</h2>
+          <form id="markerForm" class="marker-form">
+            <input id="markerId" type="hidden" />
+            <input id="markerName" placeholder="Nome do marcador" />
+            <input id="markerColor" type="color" value="#2764b8" />
+            <button>Salvar marcador</button>
+          </form>
+          <div id="markers"></div>
+        </section>
+        <section class="utility-section" data-panel-content="events" hidden>
+          <h2>Eventos</h2>
+          <div id="events"></div>
+        </section>
+      </section>
+
+      <section class="content">
+        <div class="message-list" id="messages"></div>
+      </section>
+
+      <section class="dashboard" id="dashboard" hidden>
+        <div class="dashboard-head">
+          <div>
+            <h2>Dashboard</h2>
+            <p id="dashboardSubtitle">Resumo das mensagens monitoradas</p>
+          </div>
+          <button id="dashboardBack" type="button">Ver mensagens</button>
+        </div>
+        <div class="dashboard-metrics">
+          <div class="dashboard-card"><strong id="dTotal">0</strong><span>mensagens</span></div>
+          <div class="dashboard-card"><strong id="dNew">0</strong><span>novas</span></div>
+          <div class="dashboard-card"><strong id="dHigh">0</strong><span>alta prioridade</span></div>
+          <div class="dashboard-card"><strong id="dImages">0</strong><span>imagens</span></div>
+        </div>
+        <div class="dashboard-grid">
+          <section class="dashboard-card span-2">
+            <h3>Categorizacao</h3>
+            <div id="dashboardCategories"></div>
+          </section>
+          <section class="dashboard-card">
+            <h3>Status</h3>
+            <div id="dashboardStatuses"></div>
+          </section>
+          <section class="dashboard-card">
+            <h3>Remetentes</h3>
+            <div id="dashboardSenders"></div>
+          </section>
+          <section class="dashboard-card span-2">
+            <h3>Respostas</h3>
+            <div id="dashboardReplies"></div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <div id="imageModal" class="image-modal" hidden>
+      <div class="image-modal-toolbar">
+        <button id="zoomOutImage" type="button">-</button>
+        <button id="resetZoomImage" type="button">100%</button>
+        <button id="zoomInImage" type="button">+</button>
+        <button id="closeImageModal" aria-label="Fechar imagem">Fechar</button>
+      </div>
+      <div class="image-modal-stage">
+        <img id="imageModalImg" alt="Imagem recebida ampliada" />
+      </div>
+    </div>
+
+    <div id="messageModal" class="message-modal" hidden>
+      <article class="message-modal-card">
+        <button id="closeMessageModal" class="message-modal-close" aria-label="Fechar mensagem">Fechar</button>
+        <div id="messageModalContent"></div>
+      </article>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

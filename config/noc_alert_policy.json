@@ -1,0 +1,43 @@
+{
+  "defaults": {
+    "firstErrorAfterSeconds": 0,
+    "repeatEverySeconds": 3600,
+    "stopAfterSeconds": 10800,
+    "sendRecovery": true,
+    "recoveryOnlyWithinStopWindow": true
+  },
+  "scopes": {
+    "estoque-relex": {
+      "repeatEverySeconds": 300
+    },
+    "retificacao-ret": {
+      "repeatEverySeconds": 300
+    },
+    "devolucao-as400": {
+      "repeatEverySeconds": 300
+    },
+    "mercadoria-filial": {
+      "repeatEverySeconds": 300
+    },
+    "notas-rejeitadas": {
+      "repeatEverySeconds": 300
+    }
+  },
+  "destinations": [
+    {
+      "id": "telegram-noc-pleno",
+      "type": "telegram",
+      "enabled": true,
+      "scopes": ["all"],
+      "tokenEnv": "TELEGRAM_BOT_TOKEN",
+      "chatIdsEnv": "TELEGRAM_CHAT_IDS"
+    },
+    {
+      "id": "google-chat-noc-pleno",
+      "type": "google_chat",
+      "enabled": false,
+      "scopes": ["all"],
+      "webhookEnv": "NOC_GOOGLE_CHAT_WEBHOOK"
+    }
+  ]
+}

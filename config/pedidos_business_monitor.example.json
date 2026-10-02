@@ -1,0 +1,45 @@
+{
+  "collector": "pedidos-business-monitor",
+  "updatedAt": "2026-07-16T09:45:00-03:00",
+  "events": {
+    "arquivo_original": {
+      "targetTime": "07:55",
+      "actualAt": "2026-07-16T08:02:13-03:00",
+      "count": 2,
+      "source": "/servpleno/importacao/pedidos",
+      "details": "Arquivos originais sem imp OK por arquivos importados imp."
+    },
+    "arquivo_chegada": {
+      "targetTime": "08:10",
+      "actualAt": "2026-07-16T08:02:13-03:00",
+      "count": 2,
+      "source": "/servpleno/importacao/pedidos",
+      "details": "imp.202607160827.PEDIDO_20260716100000.csv e imp.202607160827.PEDIDO_ITEM_20260716100000.csv recebidos."
+    },
+    "checagem_0805": {
+      "actualAt": "2026-07-16T08:05:10-03:00",
+      "count": 1,
+      "source": "checagem_0805",
+      "details": "Arquivo localizado e legivel."
+    },
+    "checagem_0810": {
+      "actualAt": "2026-07-16T08:10:08-03:00",
+      "count": 1,
+      "source": "checagem_0810",
+      "details": "Segunda checagem OK."
+    },
+    "envio_relex": {
+      "actualAt": "2026-07-16T09:29:40-03:00",
+      "count": 1,
+      "source": "exportaPedidosRetCsv.php",
+      "details": "Arquivo enviado para RELEX."
+    },
+    "relex_processados": {
+      "targetTime": "09:30",
+      "actualAt": "2026-07-16T09:30:02-03:00",
+      "count": 1,
+      "source": "/servpleno/exportacao/processados",
+      "details": "Arquivos RELEX em processados."
+    }
+  }
+}

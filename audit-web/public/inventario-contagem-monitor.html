@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Monitor Inventario/Contagem</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body class="noc-page">
+    <main class="noc-shell">
+      <header class="noc-topbar">
+        <div>
+          <h1 id="pageTitle">Monitor Inventario/Contagem</h1>
+          <p id="pageSubtitle">Lojas com e sem inventario no periodo selecionado.</p>
+        </div>
+        <form id="filterForm" class="monitor-filter">
+          <label>
+            Inicio
+            <input id="startDate" name="startDate" type="date">
+          </label>
+          <label>
+            Fim
+            <input id="endDate" name="endDate" type="date">
+          </label>
+          <label class="wide">
+            Lojas
+            <input id="storeList" name="lojas" type="text" placeholder="155,203,586">
+          </label>
+          <label class="checkbox-line">
+            <input id="activeOnly" name="active" type="checkbox" checked>
+            Ativas
+          </label>
+          <button id="refreshButton" class="button primary" type="submit">Atualizar</button>
+        </form>
+      </header>
+
+      <section id="inventoryKpis" class="kpis business-kpis"></section>
+
+      <section class="panel business-panel">
+        <div class="panel-head">
+          <h2>Resumo por loja</h2>
+          <span id="inventoryUpdatedAt" class="panel-meta"></span>
+        </div>
+        <div id="storeSummary" class="inventory-summary"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2 id="tableTitle">Lojas sem contagem</h2>
+          <div id="inventoryTabs" class="tabs"></div>
+        </div>
+        <div class="table-wrap noc-table-wrap">
+          <table id="inventoryTable"></table>
+        </div>
+        <div id="inventoryStatus" class="table-status"></div>
+      </section>
+    </main>
+    <script src="/inventario-contagem-monitor.js" type="module"></script>
+  </body>
+</html>

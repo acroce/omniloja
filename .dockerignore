@@ -1,0 +1,14 @@
+outputs
+.cache
+node_modules
+__pycache__
+*.pyc
+.git
+tmp
+data
+reports
+docs
+public
+cronbin
+src
+config/whatsapp-web-cert

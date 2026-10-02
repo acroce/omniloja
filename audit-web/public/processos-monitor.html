@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Monitor Recursos Processos</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body class="noc-page">
+    <main class="noc-shell">
+      <header class="noc-topbar">
+        <div>
+          <h1>Monitor Recursos Processos</h1>
+          <p id="pageSubtitle">CPU, memoria, I/O e disco dos processos de carga.</p>
+        </div>
+        <button id="refreshButton" class="button primary" type="button">Atualizar</button>
+      </header>
+
+      <section id="resourceKpis" class="kpis business-kpis"></section>
+
+      <section class="panel business-panel">
+        <div class="panel-head">
+          <h2>Servidores</h2>
+          <span id="resourceUpdatedAt" class="panel-meta"></span>
+        </div>
+        <div id="serverCards" class="resource-grid"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Processos ativos</h2>
+        </div>
+        <div class="table-wrap noc-table-wrap">
+          <table id="processTable"></table>
+        </div>
+        <div id="resourceStatus" class="table-status"></div>
+      </section>
+    </main>
+    <script src="/processos-monitor.js" type="module"></script>
+  </body>
+</html>

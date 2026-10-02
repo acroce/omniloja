@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Monitor Pedidos</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body class="noc-page">
+    <main class="noc-shell">
+      <header class="noc-topbar">
+        <div>
+          <h1 id="pageTitle">Monitor Pedidos</h1>
+          <p id="pageSubtitle">Linha do tempo do processo de pedidos.</p>
+        </div>
+        <button id="refreshButton" class="button primary" type="button">Atualizar</button>
+      </header>
+
+      <section id="businessKpis" class="kpis business-kpis"></section>
+
+      <section class="panel business-panel">
+        <div class="panel-head">
+          <h2>Timeline de pedidos</h2>
+          <span id="businessUpdatedAt" class="panel-meta"></span>
+        </div>
+        <div id="businessTimeline" class="business-timeline"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Detalhe operacional</h2>
+        </div>
+        <div class="table-wrap noc-table-wrap">
+          <table id="businessTable"></table>
+        </div>
+        <div id="businessStatus" class="table-status"></div>
+      </section>
+    </main>
+    <script src="/pedidos-monitor.js" type="module"></script>
+  </body>
+</html>

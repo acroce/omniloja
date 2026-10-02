@@ -1,0 +1,32 @@
+FROM mcr.microsoft.com/playwright:v1.62.1-jammy
+
+ENV TZ=America/Sao_Paulo \
+    DEBIAN_FRONTEND=noninteractive \
+    AUDIT_WEB_HOST=0.0.0.0 \
+    AUDIT_WEB_PORT=8095 \
+    TESOURARIA_ROOT=/app \
+    TESOURARIA_LOCK_FILE=/app/outputs/tesouraria_cofre_inteligente/tesouraria.lock \
+    OCR_PADDLE_ONNX_PYTHON=/opt/ocr/bin/python \
+    PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      cron tesseract-ocr tesseract-ocr-por python3-pil python3-pymysql python3-venv \
+      poppler-utils util-linux tzdata ca-certificates \
+    && rm -rf /var/lib/apt/lists/* \
+    && python3 -m venv /opt/ocr \
+    && /opt/ocr/bin/pip install --no-cache-dir numpy==1.26.4 pillow onnxruntime paddlepaddle==2.6.2 paddleocr==2.7.3
+
+WORKDIR /app
+
+COPY package.json ./
+RUN npm install --omit=dev
+
+COPY audit-web ./audit-web
+COPY scripts ./scripts
+COPY docker/tesouraria-cofre-entrypoint.sh /usr/local/bin/tesouraria-cofre-entrypoint
+
+RUN chmod +x /usr/local/bin/tesouraria-cofre-entrypoint /app/scripts/run-tesouraria-cofre-cron.sh /app/scripts/tesseract-with-timeout.sh \
+    && mkdir -p /app/outputs/tesouraria_cofre_inteligente /app/.cache /app/models
+
+EXPOSE 8095
+ENTRYPOINT ["/usr/local/bin/tesouraria-cofre-entrypoint"]

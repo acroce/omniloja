@@ -1,0 +1,6 @@
+SHELL=/bin/sh
+PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+# Alertas Telegram dos monitores NOC.
+# Nao agendar de 5 em 5 minutos. O envio deve acontecer ao final das crontabs dos processos.
+# Use scripts/install_noc_monitoring_cron.sh para instalar os processos com alerta acoplado.

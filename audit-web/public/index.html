@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Auditoria Pleno</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <strong>Auditoria Pleno</strong>
+          <span>Estoques e movimentacoes</span>
+        </div>
+        <label class="upload">
+          <input id="fileInput" type="file" accept=".gz,.tar.gz,application/gzip" multiple>
+          <span>Importar pacotes</span>
+        </label>
+        <div id="uploadStatus" class="status"></div>
+        <details class="app-menu">
+          <summary>Aplicacoes</summary>
+          <nav class="app-menu-list" aria-label="Aplicacoes">
+            <a href="/operacional-monitor.html">
+              <strong>Monitor Operacional</strong>
+              <span>visao unica para NOC</span>
+            </a>
+            <a href="/sap-api-monitor.html">
+              <strong>APIs SAP</strong>
+              <span>erros, sucessos e deltas</span>
+            </a>
+            <a href="/pedidos-monitor.html">
+              <strong>Pedidos</strong>
+              <span>timeline operacional</span>
+            </a>
+            <a href="/retificacao-ret-monitor.html">
+              <strong>Retificacao RET</strong>
+              <span>pendencias de importacao</span>
+            </a>
+            <a href="/auditoria-pleno/inventario-contagem">
+              <strong>Inventario/Contagem</strong>
+              <span>lojas com e sem contagem</span>
+            </a>
+            <a href="/tesouraria-cofre-inteligente.html">
+              <strong>Cofre Inteligente</strong>
+              <span>fechamentos e comprovantes</span>
+            </a>
+            <a href="/prevencao-perdas.html">
+              <strong>Prevencao e Perdas</strong>
+              <span>emissao de NF-e de retificacao</span>
+            </a>
+          </nav>
+        </details>
+        <div class="section-title">Cargas</div>
+        <div id="runList" class="run-list"></div>
+        <div class="section-title">Snapshots</div>
+        <div id="snapshotList" class="snapshot-list"></div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <h1 id="pageTitle">Selecione uma carga</h1>
+            <p id="pageSubtitle">Importe ou escolha um pacote diario para auditar.</p>
+            <div id="storeFilter" class="store-filter"></div>
+          </div>
+          <div class="actions">
+            <a id="excelButton" class="button primary disabled" href="#">Exportar Excel</a>
+            <a id="imageButton" class="button disabled" href="#">Gerar Imagem</a>
+            <a id="packageButton" class="button disabled" href="#">Exportar CSV</a>
+          </div>
+        </header>
+
+        <div id="auditView">
+          <section class="rule-note">
+            <strong>Regra operacional:</strong>
+            o estoque inicial do dia deve ser o estoque final do dia anterior. Com isso, o snapshot das 06:00 fica como conferencia eventual, e a rotina diaria pode manter apenas o snapshot do fechamento.
+          </section>
+
+          <section id="kpis" class="kpis"></section>
+
+          <section id="divergenceExplain" class="explain-panel"></section>
+
+          <section class="split">
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Movimentos por origem</h2>
+              </div>
+              <div class="table-wrap compact">
+                <table id="originTable"></table>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head">
+                <h2>Conferencia do estoque</h2>
+              </div>
+              <div id="stockCheck" class="check-list"></div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Trilhas da auditoria</h2>
+              <div id="tabs" class="tabs"></div>
+            </div>
+            <div class="table-wrap">
+              <table id="detailTable"></table>
+            </div>
+            <div id="tableStatus" class="table-status"></div>
+          </section>
+        </div>
+
+      </main>
+    </div>
+    <script src="/app.js?v=20260903-lojas-combo" type="module"></script>
+  </body>
+</html>

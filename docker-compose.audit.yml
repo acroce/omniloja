@@ -1,0 +1,18 @@
+services:
+  pleno-audit-web:
+    build:
+      context: .
+      dockerfile: Dockerfile.audit
+    container_name: ${NOC_CONTAINER_NAME:-pleno-audit-web}
+    environment:
+      TZ: America/Sao_Paulo
+      AUDIT_WEB_HOST: 0.0.0.0
+      AUDIT_WEB_PORT: ${NOC_AUDIT_WEB_PORT:-8094}
+      SAP_API_MONITOR_ENABLED: ${SAP_API_MONITOR_ENABLED_DEFAULT:-0}
+      SAP_API_MONITOR_INTERVAL_MS: "600000"
+    ports:
+      - "${NOC_WEB_PORT:-8094}:8094"
+    volumes:
+      - ./outputs:/app/outputs
+      - ./config:/app/config:ro
+    restart: unless-stopped

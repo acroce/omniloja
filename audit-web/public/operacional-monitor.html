@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Monitor Operacional</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body class="noc-page operacional-page">
+    <main class="operacional-shell">
+      <header class="operacional-topbar">
+        <div class="operacional-brand">
+          <span aria-hidden="true">▣</span>
+          <h1>Monitor Operacional</h1>
+        </div>
+        <div class="operacional-actions">
+          <a class="op-monitor-link" href="/exportacoes" title="Exportar relatórios do Pleno com acesso restrito">Exportações CSV</a>
+          <span class="op-version" title="Versão do painel">v2026.09.28-7</span>
+          <a class="op-monitor-link" href="/pdv-consumo-monitor.html" title="Abrir acompanhamento de importação ARIUS">Importação PDV</a>
+          <a class="op-refresh" href="/alertas-noc.html" title="Configurar alertas" aria-label="Configurar alertas">⚙</a>
+          <button id="refreshButton" class="op-refresh" type="button" title="Atualizar">↻</button>
+        </div>
+      </header>
+
+      <section class="op-section op-overview">
+        <article class="op-panel op-progress-panel">
+          <div class="op-progress-title">
+            <div>
+              <h2>Progresso Geral das Lojas</h2>
+              <p id="pageSubtitle">Monitoramento em tempo real das lojas</p>
+            </div>
+          </div>
+          <div class="op-progress">
+            <div class="op-gauge" style="--pct: 0">
+              <strong id="pedidosPercent">0%</strong>
+            </div>
+            <div class="op-progress-numbers">
+              <strong id="pedidosImported">0</strong>
+              <span id="pedidosTotal">/ 0 no arquivo</span>
+              <small id="pedidosPlenoDetail">Aguardando coleta</small>
+            </div>
+          </div>
+        </article>
+
+        <article class="op-panel op-list-panel">
+          <div class="op-list-head pending">
+            <strong id="pedidosPendingTitle">Pendentes (0)</strong>
+          </div>
+          <div id="pedidosPendingList" class="op-chip-list"></div>
+        </article>
+
+        <article class="op-panel op-list-panel">
+          <div class="op-list-head ok">
+            <strong id="pedidosOkTitle">No Pleno (0)</strong>
+          </div>
+          <div id="pedidosOkList" class="op-chip-list"></div>
+        </article>
+      </section>
+
+      <section class="op-section">
+        <div class="op-panel-head">
+          <h2>Timeline de Pedidos</h2>
+          <div class="op-panel-actions">
+            <span id="pedidosNotice">-</span>
+            <button id="refreshPedidosButton" class="op-mini-refresh visible" type="button" title="Reverificar pedidos agora" aria-label="Reverificar pedidos agora">↻</button>
+          </div>
+        </div>
+        <div id="pedidosTimeline" class="op-timeline"></div>
+      </section>
+
+      <section class="op-section op-cycle1-grid">
+        <article class="op-cycle1-main">
+          <div class="op-panel-head">
+            <div>
+              <h2>Ciclo 1 de Preços e Promos - Produção</h2>
+              <span id="promo0430Meta">-</span>
+            </div>
+          </div>
+          <div id="promo0430Timeline" class="op-timeline op-timeline-short"></div>
+        </article>
+        <article class="op-notes-panel">
+          <div class="op-panel-head">
+            <div>
+              <h2>Notas rejeitadas</h2>
+              <span id="notasRejeitadasMeta">-</span>
+            </div>
+          </div>
+          <div id="notasRejeitadasCard" class="op-notes-card"></div>
+        </article>
+      </section>
+
+      <section class="op-section op-split-section">
+        <div class="op-flow-grid op-flow-grid-panels">
+          <article class="op-flow-group">
+            <div class="op-panel-head">
+              <h2>Ciclo 2 de Preços e Promos - Produção</h2>
+              <span id="promo0630Meta">-</span>
+            </div>
+            <div id="promo0630ProdTimeline" class="op-timeline op-timeline-short"></div>
+          </article>
+          <article class="op-flow-group">
+            <div class="op-panel-head">
+              <h2>Ciclo 1 de Preços e Promos - Pré Produção</h2>
+              <span id="promo0630PreprodMeta">-</span>
+            </div>
+            <div id="promo0630PreprodTimeline" class="op-timeline op-timeline-short"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="op-section op-mini-grid">
+        <article>
+          <div class="op-panel-head">
+            <h2>Estoque RELEX</h2>
+            <span id="estoqueMeta">-</span>
+          </div>
+          <div id="estoqueCard" class="op-timeline op-timeline-short op-mini-timeline"></div>
+        </article>
+
+        <article>
+          <div class="op-panel-head">
+            <h2>Mercadoria Filial</h2>
+            <span id="mercadoriaFilialMeta">-</span>
+          </div>
+          <div id="mercadoriaFilialCard" class="op-timeline op-timeline-short op-mini-timeline"></div>
+        </article>
+
+        <article>
+          <div class="op-panel-head">
+            <h2>Processos</h2>
+            <span id="processServicesMeta">-</span>
+          </div>
+          <div id="processServicesCard" class="op-service-card op-service-card-stacked"></div>
+        </article>
+      </section>
+
+      <section class="op-section op-mini-grid op-status-grid">
+        <article>
+          <div class="op-panel-head">
+            <h2>Retificacao RET</h2>
+            <span id="retificacaoMeta">-</span>
+          </div>
+          <div id="retificacaoCard" class="op-status-card"></div>
+        </article>
+        <article>
+          <div class="op-panel-head">
+            <h2>Devoluções AS400</h2>
+            <span id="devolucaoMeta">-</span>
+          </div>
+          <div id="devolucaoCard" class="op-timeline op-timeline-short op-mini-timeline"></div>
+        </article>
+        <article>
+          <div class="op-panel-head">
+            <h2>Envio PDV</h2>
+            <span id="pdvQueueMeta">-</span>
+          </div>
+          <div id="pdvQueueCard" class="op-pdv-queue-card"></div>
+        </article>
+      </section>
+    </main>
+
+    <div id="notaXmlModal" class="op-modal" hidden>
+      <div class="op-modal-backdrop" data-close-nota-xml></div>
+      <section class="op-modal-panel" role="dialog" aria-modal="true" aria-labelledby="notaXmlTitle">
+        <header class="op-modal-head">
+          <div>
+            <h2 id="notaXmlTitle">XML rejeitado</h2>
+            <span id="notaXmlMeta">-</span>
+          </div>
+          <button id="notaXmlClose" class="op-modal-close" type="button" title="Fechar">×</button>
+        </header>
+        <pre id="notaXmlContent" class="op-xml-content">Carregando...</pre>
+      </section>
+    </div>
+
+    <div id="pdvQueueModal" class="op-modal" hidden>
+      <div class="op-modal-backdrop" data-close-pdv-queue></div>
+      <section class="op-modal-panel" role="dialog" aria-modal="true" aria-labelledby="pdvQueueTitle">
+        <header class="op-modal-head">
+          <div>
+            <h2 id="pdvQueueTitle">Envio PDV</h2>
+            <span id="pdvQueueModalMeta">-</span>
+          </div>
+          <button id="pdvQueueClose" class="op-modal-close" type="button" title="Fechar">×</button>
+        </header>
+        <div id="pdvQueueContent" class="op-pdv-queue-details"></div>
+      </section>
+    </div>
+
+    <script src="/operacional-monitor.js?v=20260820-pdv-fila-alertas" type="module"></script>
+  </body>
+</html>

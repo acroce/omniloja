@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Monitor Crontab Pleno</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body class="noc-page">
+    <main class="noc-shell">
+      <header class="noc-topbar">
+        <div>
+          <h1 id="pageTitle">Monitor crontab Pleno</h1>
+          <p id="pageSubtitle">Carregando status dos processos...</p>
+        </div>
+        <button id="refreshCronButton" class="button primary" type="button">Atualizar</button>
+      </header>
+
+      <section id="cronKpis" class="kpis cron-kpis"></section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Alertas</h2>
+          <span id="cronUpdatedAt" class="panel-meta"></span>
+        </div>
+        <div id="cronTimeline" class="cron-timeline"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Processos da crontab</h2>
+        </div>
+        <div class="table-wrap noc-table-wrap">
+          <table id="cronTable"></table>
+        </div>
+        <div id="cronStatus" class="table-status"></div>
+      </section>
+    </main>
+    <script src="/cron-monitor.js" type="module"></script>
+  </body>
+</html>

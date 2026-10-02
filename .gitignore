@@ -1,0 +1,31 @@
+node_modules
+
+# Ambiente e credenciais locais
+.env
+.env.*
+!.env.example
+!.env.pleno.example
+config/.pleno_*password*
+config/*password*
+config/*senha*
+config/*credential*
+
+# Dados gerados/importados
+outputs/
+tmp/
+logs/
+backups/
+data/
+*.csv
+*.tar.gz
+*.zip
+__pycache__/
+*.pyc
+
+# Artefatos locais
+.DS_Store
+.venv/
+.python_packages/
+
+# Certificados locais
+config/whatsapp-web-cert/

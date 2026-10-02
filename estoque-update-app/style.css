@@ -1,0 +1,30 @@
+:root { font-family: Arial, sans-serif; color: #14221c; background: #f4f6f2; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: #f4f6f2; }
+main { max-width: 860px; margin: 0 auto; padding: 56px 24px; }
+header { border-bottom: 1px solid #ccd5ce; padding-bottom: 28px; }
+.eyebrow { color: #27754a; font-weight: 700; margin: 0 0 8px; text-transform: uppercase; font-size: 12px; }
+h1 { margin: 0; font-size: 30px; }
+header p:not(.eyebrow) { color: #52615a; max-width: 630px; line-height: 1.5; }
+.controls { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 16px; align-items: end; padding: 28px 0; }
+label { display: grid; gap: 7px; color: #405148; font-size: 14px; font-weight: 700; }
+input { height: 40px; border: 1px solid #9aa9a0; border-radius: 4px; padding: 0 10px; font: inherit; background: #fff; }
+button, .button { min-height: 40px; border: 0; border-radius: 4px; background: #157347; color: #fff; padding: 0 17px; font: inherit; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+button:disabled { opacity: .6; cursor: wait; }
+.secondary { background: #e7ece8; color: #23342a; }
+.status-panel, .log-panel, .history-panel { background: #fff; border: 1px solid #d2dbd4; border-radius: 6px; padding: 20px; }
+.status-line { display: flex; align-items: center; gap: 10px; }
+#statusDot { width: 10px; height: 10px; border-radius: 50%; background: #98a49d; }
+#statusDot.running { background: #d18b00; } #statusDot.completed { background: #157347; } #statusDot.failed { background: #b3261e; }
+.result-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px; }
+.period, .progress { color: #405148; margin: 9px 0 0; }
+.progress { font-family: ui-monospace, monospace; font-size: 13px; }
+.password-label { min-width: 180px; font-size: 12px; }
+.deploy-status { align-self: center; font-size: 13px; color: #405148; }
+.deploy-status.failed { color: #b3261e; } .deploy-status.completed { color: #157347; }
+.log-panel { margin-top: 18px; }
+.history-panel { margin-top: 18px; }
+.panel-title { font-weight: 700; margin-bottom: 10px; }
+pre { margin: 0; min-height: 200px; max-height: 360px; overflow: auto; padding: 14px; background: #17221c; color: #d8e8de; border-radius: 4px; font: 12px/1.5 ui-monospace, monospace; white-space: pre-wrap; }
+.table-wrap { overflow-x: auto; } table { border-collapse: collapse; width: 100%; font-size: 13px; } th, td { border-bottom: 1px solid #e2e8e3; padding: 9px 7px; text-align: left; white-space: nowrap; } th { color: #52615a; font-size: 11px; text-transform: uppercase; }
+@media (max-width: 640px) { main { padding: 28px 16px; } .controls { grid-template-columns: 1fr; } h1 { font-size: 26px; } }

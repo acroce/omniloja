@@ -1,0 +1,31 @@
+services:
+  prevencao-perdas:
+    build:
+      context: .
+      dockerfile: Dockerfile.prevencao-perdas
+    env_file:
+      - .env
+    environment:
+      TZ: America/Sao_Paulo
+      AUDIT_WEB_HOST: 0.0.0.0
+      AUDIT_WEB_PORT: ${PREVENCAO_WEB_PORT:-8096}
+      PREV_PERDAS_LIMIT: "1000"
+      PREV_PERDAS_INCLUDE_RETRIES: "0"
+      PREV_PERDAS_EMISSAO_TIMEOUT_MS: "30000"
+      PREV_PERDAS_NOTA_NAV_TIMEOUT_MS: "15000"
+      PREV_PERDAS_NOTA_COMMIT_TIMEOUT_MS: "8000"
+      PREV_PERDAS_NOTA_SETTLE_MS: "3000"
+      PREV_PERDAS_CRON: "40 22 * * *"
+      PREV_PERDAS_LOCK_FILE: /app/outputs/prevencao_perdas/prevencao-perdas.lock
+      SAP_API_MONITOR_ENABLED: "0"
+      CHECKIN_NOTAS_MONITOR_ENABLED: "0"
+      SAP_API_GOOGLE_CHAT_ENABLED: "0"
+      PLENO_CHROME_PATH: ""
+    ports:
+      - "8096:8096"
+    volumes:
+      - ./outputs/prevencao_perdas:/app/outputs/prevencao_perdas
+      - ./.cache/prevencao-perdas:/app/.cache
+      - ./.env:/app/.env:ro
+      - /tmp/prevencao-perdas.lock:/app/outputs/prevencao_perdas/prevencao-perdas.lock
+    restart: unless-stopped

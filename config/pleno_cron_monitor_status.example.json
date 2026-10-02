@@ -1,0 +1,30 @@
+{
+  "collector": "pleno_cron_monitor_record.mjs",
+  "updatedAt": "2026-07-16T08:15:00-03:00",
+  "runs": {
+    "sg_fatura": {
+      "id": "sg_fatura",
+      "status": "ok",
+      "lastStartedAt": "2026-07-16T01:00:00-03:00",
+      "lastFinishedAt": "2026-07-16T01:03:18-03:00",
+      "exitCode": 0,
+      "command": "/usr/share/pleno/scripts/sg_fatura.sh"
+    },
+    "importa_pleno_p": {
+      "id": "importa_pleno_p",
+      "status": "ok",
+      "lastStartedAt": "2026-07-16T08:05:00-03:00",
+      "lastFinishedAt": "2026-07-16T08:05:44-03:00",
+      "exitCode": 0,
+      "command": "/servpleno/importa_pleno -p"
+    },
+    "gatilho_importa_nf_transf": {
+      "id": "gatilho_importa_nf_transf",
+      "status": "error",
+      "lastStartedAt": "2026-07-16T08:00:00-03:00",
+      "lastFinishedAt": "2026-07-16T08:00:12-03:00",
+      "exitCode": 1,
+      "command": "cd /usr/share/pleno/php && /usr/bin/php /usr/share/pleno/php/cron/fiscal/ImportacaoNotafiscalTransferencia/gatilhoImportaNfTransf.php"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Atualizacao de Estoque</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="eyebrow">Pleno</p>
+        <h1>Atualizacao de Estoque</h1>
+        <p>Sincroniza XMLs rejeitados, gera o consolidado, extrai o estoque atual e confere cada loja e artigo.</p>
+      </header>
+      <section class="controls" aria-label="Periodo da atualizacao">
+        <label>Data inicial<input id="startDate" type="date"></label>
+        <label>Data final<input id="endDate" type="date"></label>
+        <label>Senha do Pleno<input id="runPassword" type="password" autocomplete="current-password"></label>
+        <button id="runButton" type="button">Executar atualizacao</button>
+      </section>
+      <section class="status-panel">
+        <div class="status-line"><span id="statusDot"></span><strong id="status">Pronto para executar</strong></div>
+        <p id="result">Selecione o periodo e inicie a rotina.</p>
+        <p id="period" class="period"></p>
+        <p id="progress" class="progress"></p>
+        <div id="resultActions" class="result-actions" hidden>
+          <a id="download" class="button" href="#">Baixar arquivo final</a>
+          <button id="openFolder" class="button secondary" type="button">Abrir pasta do resultado</button>
+          <label class="password-label">Senha do Pleno<input id="deployPassword" type="password" autocomplete="current-password"></label>
+          <button id="deploy" class="button secondary" type="button">Enviar ao Pleno</button>
+          <span id="deployStatus" class="deploy-status"></span>
+          <button id="registerManual" class="button secondary" type="button">Registrar envio manual</button>
+        </div>
+      </section>
+      <section class="log-panel">
+        <div class="panel-title">Andamento</div>
+        <pre id="log">Aguardando.</pre>
+      </section>
+      <section class="history-panel">
+        <div class="panel-title">Historico de Envios</div>
+        <div class="table-wrap"><table id="deployHistory"><thead><tr><th>Data e hora</th><th>Arquivo</th><th>Metodo</th><th>Destino</th></tr></thead><tbody></tbody></table></div>
+      </section>
+    </main>
+    <script src="/app.js"></script>
+  </body>
+</html>
